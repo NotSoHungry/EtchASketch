@@ -17,12 +17,12 @@ var gameView = function () {
         newRow: function(fillRow) {
             var row = this.newEl('div');
             row.setAttribute('class', 'canvas-row row');
-            row.style.height = controller.calculateRowHeightPercentage();
+            row.style.height = controller.getRowHeight();
             
             for (let i = 1; i <= model.widthRatio; i++) {
                 let cell = this.newEl('div');
                 cell.setAttribute('class', 'canvas-row-cell');
-                cell.style.cssText = `height: 100%; width: ${controller.calculateCellWidthPercentage()}`;
+                cell.style.cssText = `width: ${controller.getCellWidth()}`;
                 row.appendChild(cell);
             }
 
@@ -37,28 +37,37 @@ var gameView = function () {
 
         },
 
-        defaultCanvas: function() {
+        renderDefaultCanvas: function() {
             var canvas = this.el('.app-main-canvas');
             for (let i = 1; i <= model.heightRatio; i++) {
                 canvas.appendChild(this.newRow());
             }
         },
 
-        toogleGridView: function (marginValue) {
-            let rows = this.allEl('.canvas-row');
-
-            rows.forEach((element, index) => {
-                let rowCells = element.childNodes;
-                rowCells.forEach((element, index) => {
-                return (index < (rowCells.length - 1)) ? element.style.cssText = `border-right: solid ${marginValue}px black; width: ${controller.calculateCellWidthWithMargin(marginValue)}` :
-                       (index === (rowCells.length - 1)) ? element.style.cssText = `width: ${controller.calculateCellWidthPercentage()}` : "";
-                });
-                return (index < (rows.length - 1)) ? element.style.cssText = `border-bottom: solid ${marginValue}px black; height: ${controller.calculateRowHeightWithMargin(marginValue)}` :
-                       (index === (rows.length - 1)) ? element.style.cssText = `height: ${controller.calculateRowHeightPercentage()}` : "";
-            });
-
-            
-
+        toogleGridView: function (borderValue) {
+            let rows = this.allEl('.canvas-row'),
+                borderStyle = `solid ${borderValue}px black`,
+                borderRowHeight = controller.getRowHeightWithBorder(borderValue),
+                borderCellWidth = controller.getCellWidthWithBorder(borderValue),
+                defaultRowHeight = controller.getRowHeight(),
+                defaultCellWidth = controller.getCellWidth();
+            //Initiate loop for all rows and increase row's height if border will be applied
+            rows.forEach((currentRow, currentRowIndex, rowsArray) => {
+                let currentRowCells = currentRow.childNodes,
+                    isLastRow = controller.isLastElement(currentRowIndex, rowsArray);
+                    (!isLastRow) ? currentRow.style.height = borderRowHeight : currentRow.style.height = defaultRowHeight;
+                //Set appropriate styles for cells - border/height/width
+                currentRowCells.forEach((currentCell, currentCellIndex, cellsArray) => {
+                    let isLastCell = controller.isLastElement(currentCellIndex, cellsArray);
+                    if (!isLastRow) {
+                       (!isLastCell) ? currentCell.style.cssText = `border-bottom: ${borderStyle}; border-right: ${borderStyle}; width: ${borderCellWidth}` :
+                       (isLastCell) ? currentCell.style.cssText = `border-bottom: ${borderStyle}; width: ${defaultCellWidth}` : "";
+                    } else {
+                        (!isLastCell) ? currentCell.style.cssText = `border-bottom: ${borderStyle}; border-right: ${borderStyle}; width: ${borderCellWidth}` : ""; 
+                    }
+                }) 
+                
+            }) 
         }
-    }     
-}
+    }
+} 

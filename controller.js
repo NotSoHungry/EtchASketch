@@ -1,27 +1,33 @@
 var gameController = function () {
 
     return {
-        calculateCellWidthPercentage: function() {
+        getCellWidth: function() {
             let canvasHeight
             return Number(100 / model.widthRatio)
                 .toString()
                 .concat("%");
         },
 
-        calculateRowHeightPercentage: function() {
+        getRowHeight: function() {
             return Number(100 / model.heightRatio)
                 .toString()
                 .concat("%");
         },
 
-        calculateRowHeightWithMargin: function(marginValue) {
-            let allMarginsProduct = marginValue / model.heightRatio;
-            return `calc(${this.calculateRowHeightPercentage()} + ${allMarginsProduct}px)`;
+        getRowHeightWithBorder: function(borderValue) {
+            let heightToAdd = borderValue / model.heightRatio;
+            return `calc(${this.getRowHeight()} + ${heightToAdd}px`;
         },
 
-        calculateCellWidthWithMargin: function(marginValue) {
-            let allMarginsProduct = marginValue / model.widthRatio;
-            return `calc(${this.calculateCellWidthPercentage()} + ${allMarginsProduct}px`;
+        getCellWidthWithBorder: function(borderValue) {
+            let widthToAdd = borderValue / model.widthRatio;
+            return `calc(${this.getCellWidth()} + ${widthToAdd}px`;
         },
+
+        isLastElement: function(elementIndex, array) {
+            return (elementIndex === array.length - 1) ? true : false;
+        }
+
+
     }
 }    
