@@ -32,6 +32,12 @@
     white-space: nowrap;
 }
 
+.canvas-cells-wrapper {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
 .canvas-row {
     box-sizing: border-box;
 }

@@ -1,6 +1,11 @@
 var gameController = function () {
 
     return {
+
+        generateRandomNumber(maxNumber) {
+            return Math.floor(Math.random * maxNumber);
+        },
+        
         getCellWidth: function() {
             let canvasHeight
             return Number(100 / model.widthRatio)

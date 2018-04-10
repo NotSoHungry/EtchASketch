@@ -37,16 +37,20 @@ var gameView = function () {
 
         },
 
+        colorCell: function() {
+            this.style.backgroundColor = model.currentColor;
+        },
+
         renderDefaultCanvas: function() {
-            var canvas = this.el('.app-main-canvas');
+            var canvas = this.el('.canvas-cells-wrapper');
             for (let i = 1; i <= model.heightRatio; i++) {
                 canvas.appendChild(this.newRow());
             }
         },
 
-        toogleGridView: function (borderValue) {
+        toogleGridView: function (borderValue, borderColor = "black") {
             let rows = this.allEl('.canvas-row'),
-                borderStyle = `solid ${borderValue}px black`,
+                borderStyle = `solid ${borderValue}px ${borderColor}`,
                 borderRowHeight = controller.getRowHeightWithBorder(borderValue),
                 borderCellWidth = controller.getCellWidthWithBorder(borderValue),
                 defaultRowHeight = controller.getRowHeight(),
@@ -63,7 +67,7 @@ var gameView = function () {
                        (!isLastCell) ? currentCell.style.cssText = `border-bottom: ${borderStyle}; border-right: ${borderStyle}; width: ${borderCellWidth}` :
                        (isLastCell) ? currentCell.style.cssText = `border-bottom: ${borderStyle}; width: ${defaultCellWidth}` : "";
                     } else {
-                        (!isLastCell) ? currentCell.style.cssText = `border-bottom: ${borderStyle}; border-right: ${borderStyle}; width: ${borderCellWidth}` : ""; 
+                        (!isLastCell) ? currentCell.style.cssText = `border-right: ${borderStyle}; width: ${borderCellWidth}` : ""; 
                     }
                 }) 
                 
