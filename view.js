@@ -48,7 +48,7 @@ var gameView = function () {
             }
         },
 
-        toogleGridView: function (borderValue, borderColor = "black") {
+        activateGridView: function (borderValue, borderColor = "black") {
             let rows = this.allEl('.canvas-row'),
                 borderStyle = `solid ${borderValue}px ${borderColor}`,
                 borderRowHeight = controller.getRowHeightWithBorder(borderValue),
@@ -72,6 +72,15 @@ var gameView = function () {
                 }) 
                 
             }) 
+        },
+
+        deactivateGridView: function() {
+            let allRows = this.allEl('.canvas-row'),
+                allCells = this.allEl('.canvas-row-cell'),
+                defaultRowHeight = controller.getRowHeight(),
+                defaultCellWidth = controller.getCellWidth();
+            allRows.forEach(row => row.style.height = defaultRowHeight);
+            allCells.forEach(cell => cell.style.cssText = `width: ${defaultCellWidth}`);
         }
     }
 } 
