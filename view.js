@@ -59,16 +59,17 @@ var gameView = function () {
         },
 
         toogleGridView: function (borderValue, borderColor = "black") {
+            let allRows = this.allEl('.canvas-row'),
+                allCells = this.allEl('.canvas-row-cell'),
+                borderStyle = `solid ${borderValue}px ${borderColor}`,
+                borderRowHeight = controller.getRowHeightWithBorder(borderValue),
+                borderCellWidth = controller.getCellWidthWithBorder(borderValue),
+                defaultRowHeight = controller.getRowHeight(),
+                defaultCellWidth = controller.getCellWidth();
             switch (true) {
-                case model.viewMode === "grid":
-                    let rows = this.allEl('.canvas-row'),
-                    borderStyle = `solid ${borderValue}px ${borderColor}`,
-                    borderRowHeight = controller.getRowHeightWithBorder(borderValue),
-                    borderCellWidth = controller.getCellWidthWithBorder(borderValue),
-                    defaultRowHeight = controller.getRowHeight(),
-                    defaultCellWidth = controller.getCellWidth();
+                case (model.viewMode === "grid"):
                     //Initiate loop for all rows and increase row's height if border will be applied
-                    rows.forEach((currentRow, currentRowIndex, rowsArray) => {
+                    allRows.forEach((currentRow, currentRowIndex, rowsArray) => {
                         let currentRowCells = currentRow.childNodes,
                             isLastRow = controller.isLastElement(currentRowIndex, rowsArray);
                             (!isLastRow) ? currentRow.style.height = borderRowHeight : currentRow.style.height = defaultRowHeight;
@@ -85,11 +86,7 @@ var gameView = function () {
                     
                     })
                     break;
-                case model.viewMode === "canvas":
-                    let allRows = this.allEl('.canvas-row'),
-                        allCells = this.allEl('.canvas-row-cell'),
-                        defaultRowHeight = controller.getRowHeight(),
-                        defaultCellWidth = controller.getCellWidth();
+                case (model.viewMode === "canvas"):
                     allRows.forEach(row => row.style.height = defaultRowHeight);
                     allCells.forEach(cell => cell.style.cssText = `width: ${defaultCellWidth}`);
             }      
