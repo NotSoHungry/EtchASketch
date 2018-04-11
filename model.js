@@ -3,6 +3,8 @@ var gameModel = function () {
     var _widthRatio = 48,
         _heightRatio = 48,
         _viewMode = "canvas",
+        _currentBrush = "",
+        _brushMode = "hover",
         _currentColor = "green",
         _currentZoom = 1;
 
@@ -17,6 +19,10 @@ var gameModel = function () {
 
         get currentColor() {
             return _currentColor;
+        },
+
+        get viewMode() {
+            return _viewMode;
         }
     } 
 }
