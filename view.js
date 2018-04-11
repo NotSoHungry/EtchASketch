@@ -41,21 +41,25 @@ var gameView = function () {
             this.style.backgroundColor = model.currentColor;
         },
 
-        toogleColoringMode: function() {
+        toogleBrush: function() {
 
         },
 
-        toogleErasingMode: function() {
+        toogleBrushMode: function() {
 
         },
 
 
 
         initiateDefaultCanvas: function() {
-            var canvas = this.el('.canvas-cells-wrapper');
+            let canvas = this.el('.canvas-cells-wrapper');
             for (let i = 1; i <= model.heightRatio; i++) {
                 canvas.appendChild(this.newRow());
             }
+            let cells = this.allEl('.canvas-row-cell');
+            cells.forEach(cell => {
+                cell.addEventListener('mouseover', this.colorCell);
+            })
         },
 
         toogleGridView: function (borderValue, borderColor = "black") {
