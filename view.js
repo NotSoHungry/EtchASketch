@@ -14,15 +14,15 @@ var gameView = function () {
             return document.createElement(query);
         },
 
-        newRow: function(fillRow) {
+        newRow: function() {
             var row = this.newEl('div');
             row.setAttribute('class', 'canvas-row row');
-            row.style.height = controller.getRowHeight();
+            row.style.height = model.rowHeight;
             
             for (let i = 1; i <= model.widthRatio; i++) {
                 let cell = this.newEl('div');
                 cell.setAttribute('class', 'canvas-row-cell');
-                cell.style.cssText = `width: ${controller.getCellWidth()}`;
+                cell.style.cssText = `width: ${model.cellWidth}`;
                 row.appendChild(cell);
             }
 
@@ -49,7 +49,9 @@ var gameView = function () {
 
         },
 
-
+        isLastElement: function(elementIndex, array) {
+            return (elementIndex === array.length - 1) ? true : false;
+        },
 
         initiateDefaultCanvas: function() {
             let canvas = this.el('.canvas-cells-wrapper');
@@ -66,20 +68,20 @@ var gameView = function () {
             let allRows = this.allEl('.canvas-row'),
                 allCells = this.allEl('.canvas-row-cell'),
                 borderStyle = `solid ${borderValue}px ${borderColor}`,
-                borderRowHeight = controller.getRowHeightWithBorder(borderValue),
-                borderCellWidth = controller.getCellWidthWithBorder(borderValue),
-                defaultRowHeight = controller.getRowHeight(),
-                defaultCellWidth = controller.getCellWidth();
+                borderRowHeight = model.rowHeightWithBorder,
+                borderCellWidth = model.cellWidthWithBorder,
+                defaultRowHeight = model.rowHeight,
+                defaultCellWidth = model.cellWidth;
             switch (true) {
                 case (model.viewMode === "grid"):
                     //Initiate loop for all rows and increase row's height if border will be applied
                     allRows.forEach((currentRow, currentRowIndex, rowsArray) => {
                         let currentRowCells = currentRow.childNodes,
-                            isLastRow = controller.isLastElement(currentRowIndex, rowsArray);
+                            isLastRow = this.isLastElement(currentRowIndex, rowsArray);
                             (!isLastRow) ? currentRow.style.height = borderRowHeight : currentRow.style.height = defaultRowHeight;
                         //Set appropriate styles for cells - border/height/width
                         currentRowCells.forEach((currentCell, currentCellIndex, cellsArray) => {
-                            let isLastCell = controller.isLastElement(currentCellIndex, cellsArray);
+                            let isLastCell = this.isLastElement(currentCellIndex, cellsArray);
                             if (!isLastRow) {
                                 (!isLastCell) ? currentCell.style.cssText = `border-bottom: ${borderStyle}; border-right: ${borderStyle}; width: ${borderCellWidth}` :
                                 (isLastCell) ? currentCell.style.cssText = `border-bottom: ${borderStyle}; width: ${defaultCellWidth}` : "";

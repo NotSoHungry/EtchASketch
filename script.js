@@ -26,7 +26,19 @@ GAME STORIES:
 
 6. User must be able to choose an erasor, with the same modes as the painting have.
 
+*/
 
+/*
+
+On start -> window.onload - controller.activateApp -> model.gameActive = true -> if (noGrid) view.renderDefaultGrid
+
+Grid on -> switch.onChange -> controller.activateGrid -> model.currentView = "grid" -> view.toogleGridView();
+
+Grid off -> gridSwitch.onChange -> controller.deactivateGrid -> model.currentView = "canvas" -> view.toogleGridView();
+
+Brush mode switch:
+
+1. OnHover -> brushSwitch.onChange -> controller.changeBrushMode -> 
 
 
 */

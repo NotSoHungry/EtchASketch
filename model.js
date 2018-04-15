@@ -1,8 +1,10 @@
 var gameModel = function () {
     
-    var _widthRatio = 48,
+    let _gameActive = false,
+        _widthRatio = 48,
         _heightRatio = 48,
         _viewMode = "canvas",
+        _borderValue = 1,
         _currentBorderThickness = 1,
         _currentBorderColor = "black",
         _currentBrush = "paint",
@@ -17,6 +19,28 @@ var gameModel = function () {
 
         get heightRatio() {
             return _heightRatio;
+        },
+
+        get cellWidth() {
+            return Number(100 / _widthRatio).toString().concat("%");
+        },
+
+        get cellWidthWithBorder() {
+            let widthToAdd = _borderValue / _widthRatio;
+            return `calc(${this.cellWidth} + ${widthToAdd}px`;
+        },
+
+        get rowHeight() {
+            return Number(100 / _heightRatio).toString().concat('%');
+        },
+
+        get rowHeightWithBorder() {
+            let heightToAdd = _borderValue / _heightRatio;
+            return `calc(${this.rowHeight} + ${heightToAdd}px)`
+        },
+
+        randomNumber: function(maxNumber) {
+            return Math.floor(Math.random * maxNumber);
         },
 
         get currentColor() {
